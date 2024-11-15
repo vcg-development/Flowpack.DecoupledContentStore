@@ -212,4 +212,11 @@ class BackendController extends \Neos\Flow\Mvc\Controller\ActionController
 
         $this->redirect('index', null, null, ['contentStore' => $redisInstanceIdentifier->getIdentifier()]);
     }
+    
+    public function incrementAction()
+    {
+        $this->contentReleaseManager->cancelAllRunningContentReleases();
+        $this->contentReleaseManager->startIncrementalContentRelease();
+        $this->redirect('index');
+    }
 }
