@@ -32,7 +32,10 @@ class RedisClientManager
         $redis = new \Redis();
         $connected = false;
         try {
-            $connected = $redis->connect($instanceConfig['hostname'], $instanceConfig['port'] ?? 6379, $instanceConfig['timeout'] ?? 0) && $redis->select($instanceConfig['database'] ?? 0);
+            $connected = $redis->connect($instanceConfig['hostname'], $instanceConfig['port'] ?? 6379, $instanceConfig['timeout'] ?? 0) && $redis->auth([(empty($instanceConfig['username']) ? "default":$instanceConfig['username']), $instanceConfig['password'] ?? ""]) && $redis->select($instanceConfig['database'] ?? 0);
+            if(!empty($instanceConfig["prefix"])){
+                $redis->setOption(\Redis::OPT_PREFIX, $instanceConfig["prefix"].":");
+            }
         } catch (\Exception $e) {
             throw new Exception(sprintf('Could not connect to Redis server %s:%d. Detailed reason: see nested exception.', $instanceConfig['hostname'], $instanceConfig['port']), 1630323312, $e);
         }

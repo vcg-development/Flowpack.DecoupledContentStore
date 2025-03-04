@@ -64,7 +64,7 @@ class ContentReleaseManager
             'currentContentReleaseId' => $this->resolveCurrentContentReleaseId($currentContentReleaseId),
             'validate' => true,
             'workspaceName' => $workspace !== null ? $workspace->getName() : 'live',
-            'accountId' => $this->getAccountId(),
+            'accountId' => $this->getAccountId() ?? "CLI",
         ]));
 
         return $contentReleaseId;
@@ -82,7 +82,7 @@ class ContentReleaseManager
             'currentContentReleaseId' => $this->resolveCurrentContentReleaseId($currentContentReleaseId),
             'validate' => $validate,
             'workspaceName' => $workspace !== null ? $workspace->getName() : 'live',
-            'accountId' => $this->getAccountId(),
+            'accountId' => $this->getAccountId() ?? "CLI",
         ]));
 
         return $contentReleaseId;

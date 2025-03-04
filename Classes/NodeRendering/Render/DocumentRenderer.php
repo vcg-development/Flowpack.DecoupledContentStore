@@ -306,7 +306,7 @@ class DocumentRenderer
         // to properly generate the domain part of the routes - and this relies on the proper ControllerContext URI path.
         $baseControllerContext = $this->buildControllerContextAndSetBaseUri($primaryDomain->__toString(), $node, $arguments);
         $format = $arguments['@format'] ?? 'html';
-        $uri = $this->linkingService->createNodeUri($baseControllerContext, $node, null, $format, true, $arguments, '', false, [], false);
+        $uri = $this->linkingService->createNodeUri($baseControllerContext, $node, null, $format, true, $arguments, '', false, [], true);
         return $this->removeQueryPartFromUri($uri);
     }
 

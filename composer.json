@@ -99,5 +99,10 @@
       "Neos.Seo-20170127154600",
       "Neos.Flow-20170127183102"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "neos/composer-plugin": true
+    }
   }
 }

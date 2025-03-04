@@ -20,5 +20,11 @@ class ContentStorePublishCommandController extends CommandController
         $this->contentReleaseManager->cancelAllRunningContentReleases();
         $this->contentReleaseManager->startFullContentRelease();
     }
+    
+    public function incrementCommand()
+    {
+        $this->contentReleaseManager->cancelAllRunningContentReleases();
+        $this->contentReleaseManager->startIncrementalContentRelease();
+    }
 
 }

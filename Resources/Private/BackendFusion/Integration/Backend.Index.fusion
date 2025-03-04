@@ -168,4 +168,15 @@ prototype(Flowpack.DecoupledContentStore:ListFooter) < prototype(Neos.Fusion:Joi
             </button>
         `
     }
+
+    publishIncremental = Neos.Fusion:Component {
+        _incrementUri = Neos.Fusion:UriBuilder {
+            action = 'increment'
+        }
+        renderer = afx`
+            <button form="postHelper" formaction={props._incrementUri} type="submit" class="neos-button neos-button-warning neos-pull-right">
+                Start Incremental Release
+            </button>
+        `
+    }
 }
