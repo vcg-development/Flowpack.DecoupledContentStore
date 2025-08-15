@@ -141,7 +141,7 @@ Flowpack:
       #    port: ''
       #    user: ''
       #    directory: '../nginx/frontend/resources/'
-    maxFailedAttempts: 3
+    maxFailedAttempts: 5
 Neos:
   Neos:
     fusion:
