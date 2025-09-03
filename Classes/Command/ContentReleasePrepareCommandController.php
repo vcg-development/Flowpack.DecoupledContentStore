@@ -54,20 +54,26 @@ class ContentReleasePrepareCommandController extends CommandController
         $contentReleaseIds = $this->redisContentReleaseService->fetchAllReleaseIds($redisInstanceIdentifier);
         $metadata = $this->redisContentReleaseService->fetchMetadataForContentReleases($redisInstanceIdentifier, ...$contentReleaseIds);
         $failedCount = 0;
-        $runningCount = 0;
+        // We loop through all content releases in reverse order and check if any of them failed, if we find a succeeded release we can stop
         foreach ($contentReleaseIds as $contentReleaseId){
             /** @var \Flowpack\DecoupledContentStore\PrepareContentRelease\Dto\ContentReleaseMetadata $contentReleaseMetadata */
             $contentReleaseMetadata = $metadata->getResultForContentRelease($contentReleaseId);
+
             if($contentReleaseMetadata->getStatus()->getStatus() === 'failed') {
                 $failedCount++;
             }
             // If service runs OOM it will be marked as running and stay forever
             if($contentReleaseMetadata->getStatus()->getStatus() === 'running') {
-                $runningCount++;
+                $failedCount++;
+            }
+            
+            // break on success
+            if($contentReleaseMetadata->getStatus()->getStatus() === 'success') {
+                break;
             }
         }
         
-        return ($failedCount + $runningCount) < $this->maxFailedAttempts;
+        return $failedCount < $this->maxFailedAttempts;
         
     }
     public function ensureAllOtherInProgressContentReleasesWillBeTerminatedCommand(string $contentReleaseIdentifier): void
